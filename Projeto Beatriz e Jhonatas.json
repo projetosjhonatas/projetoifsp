@@ -1,0 +1,651 @@
+[
+    {
+        "id": "97c972785122e159",
+        "type": "ui_gauge",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "group": "fac9971ea50b1a1d",
+        "order": 1,
+        "width": 6,
+        "height": 5,
+        "gtype": "gage",
+        "title": "Ruido",
+        "label": "dB",
+        "format": "{{value}}",
+        "min": "30",
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 470,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "725bcb7b3d836c8b",
+        "type": "mqtt in",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "topic": "TOPICO_PUBLISH_RUIDO",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "2bc52c51.dbbb94",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 120,
+        "wires": [
+            [
+                "d51d8f6a85432ca9",
+                "9a03196bddc4a87a",
+                "77e391e963ba134d",
+                "97c972785122e159",
+                "2d2ea12963f77322"
+            ]
+        ]
+    },
+    {
+        "id": "d51d8f6a85432ca9",
+        "type": "debug",
+        "z": "37b4cf34808c4649",
+        "name": "Rui",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "9a03196bddc4a87a",
+        "type": "ui_chart",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "group": "fac9971ea50b1a1d",
+        "order": 2,
+        "width": 6,
+        "height": 6,
+        "label": "Gráfico de Linha",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#e10e0e",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 500,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23f4bc591b980b98",
+        "type": "mqtt in",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "topic": "TOPICO_PUBLISH_LIMITE",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "2bc52c51.dbbb94",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 240,
+        "wires": [
+            [
+                "9a03196bddc4a87a",
+                "0460c6d5a59ba7f9"
+            ]
+        ]
+    },
+    {
+        "id": "77e391e963ba134d",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "func": "msg.payload = Number(msg.payload);\nvar led;\nif (msg.payload >= 70){\n    led = 1;\n}\nif(msg.payload < 70){\n    led = 0;\n}\nmsg = {\n    payload:led\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 120,
+        "wires": [
+            [
+                "3fbd119830ddfa8b"
+            ]
+        ]
+    },
+    {
+        "id": "3fbd119830ddfa8b",
+        "type": "ui_led",
+        "z": "37b4cf34808c4649",
+        "order": 1,
+        "group": "fd0453afa32a4e1d",
+        "width": 6,
+        "height": 2,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "1",
+                "valueType": "num"
+            },
+            {
+                "color": "#008000",
+                "value": "0",
+                "valueType": "num"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2d2ea12963f77322",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "global_ruido",
+        "func": "global.set(\"ruido\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "03ffb4884f62b20c",
+        "type": "debug",
+        "z": "37b4cf34808c4649",
+        "name": "resultado",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "2fb0069ad9a131bb",
+        "type": "inject",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 520,
+        "wires": [
+            [
+                "0af97873321b63e1"
+            ]
+        ]
+    },
+    {
+        "id": "0af97873321b63e1",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "INSERT",
+        "func": " \nvar db = global.get(\"ruido\");\nvar limi = global.get(\"limite\");\n\n\nmsg.topic = \"INSERT INTO dados (ruido, limite) VALUES (\"+db+\",\" +limi+\");\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 520,
+        "wires": [
+            [
+                "776e26cc5e46d807"
+            ]
+        ]
+    },
+    {
+        "id": "70b14e28615c83e9",
+        "type": "comment",
+        "z": "37b4cf34808c4649",
+        "name": "Grava numero aleatorio em mysql",
+        "info": "",
+        "x": 160,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "776e26cc5e46d807",
+        "type": "mysql",
+        "z": "37b4cf34808c4649",
+        "mydb": "636ab1694ccbabf6",
+        "name": "conexao_mysql",
+        "x": 500,
+        "y": 520,
+        "wires": [
+            [
+                "03ffb4884f62b20c"
+            ]
+        ]
+    },
+    {
+        "id": "92477f10c82c7f85",
+        "type": "inject",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 720,
+        "wires": [
+            [
+                "c6a6d19308d2ac2c"
+            ]
+        ]
+    },
+    {
+        "id": "c6a6d19308d2ac2c",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "SELECT",
+        "func": "\nmsg.topic = \"SELECT * FROM dados order by timeStamp DESC limit 10;\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 720,
+        "wires": [
+            [
+                "bd08af3a2627fc4b"
+            ]
+        ]
+    },
+    {
+        "id": "a309d4e1edb3b6a8",
+        "type": "ui_template",
+        "z": "37b4cf34808c4649",
+        "group": "8bf1dc9dafee872f",
+        "name": "Tabela Ruído",
+        "order": 2,
+        "width": 6,
+        "height": "6",
+        "format": "<div layout=\"row\" layout-align=\"start center\">\n  <span flex>Hora</span>\n  <span flex>dB</span>\n \n</div>\n<div layout=\"row\" layout-align=\"start center\" ng-repeat=\"row in msg.payload\">\n  <span flex style=\"color: green\">{{row.timeStamp}}</span>\n  <span flex style=\"color: red\">{{row.ruido}} dB</span>\n  \n\n</div>\n ",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 650,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e70eea72d6604a60",
+        "type": "comment",
+        "z": "37b4cf34808c4649",
+        "name": "Mysql: Select últimos 10 dados para grafico e tabela",
+        "info": "",
+        "x": 210,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "bd08af3a2627fc4b",
+        "type": "mysql",
+        "z": "37b4cf34808c4649",
+        "mydb": "636ab1694ccbabf6",
+        "name": "conexao_mysql",
+        "x": 440,
+        "y": 720,
+        "wires": [
+            [
+                "a309d4e1edb3b6a8"
+            ]
+        ]
+    },
+    {
+        "id": "0460c6d5a59ba7f9",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "global_limite",
+        "func": "global.set(\"limite\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0857d6b3cd9d5c66",
+        "type": "inject",
+        "z": "37b4cf34808c4649",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 620,
+        "wires": [
+            [
+                "b519c359a1a57a6b"
+            ]
+        ]
+    },
+    {
+        "id": "b519c359a1a57a6b",
+        "type": "function",
+        "z": "37b4cf34808c4649",
+        "name": "SELECT",
+        "func": "msg.topic = \"SELECT ruido as db, limite as limi, timeStamp as timeStamp FROM dados where timeStamp >= now() - 84600;\"\nreturn msg;\n\n//msg.topic = \"SELECT * FROM tempLog where timeStamp >= now() - 84600;\"\n\n//msg.topic = \"SELECT temperature as temperatura, humidity as humidade, timeStamp FROM tempLog where timeStamp >= now() - 84600;\"\n\n//msg.topic = \"INSERT INTO tempLog (temperature,humidity) VALUES (\"+temperatura+\",\"+humidade+\" );\"\n\n//SELECT MAX(\"producaocatanduva\") as producao, time FROM \"Solar_IFSP\"  WHERE time >= now() - 30d GROUP BY time(1d)",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 620,
+        "wires": [
+            [
+                "1d3ab0a498bec4a3"
+            ]
+        ]
+    },
+    {
+        "id": "af8117986c556932",
+        "type": "comment",
+        "z": "37b4cf34808c4649",
+        "name": "Mysql: Select últimos 10 dados para grafico e tabela",
+        "info": "",
+        "x": 210,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "3ae1d261908ae282",
+        "type": "change",
+        "z": "37b4cf34808c4649",
+        "name": "Format data",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "(\t  $series := [\t    { \"label\": \"db (dB)\" , \"field\": \"db\"  },\t    {  \"label\": \"limi (dB)\", \"field\": \"limi\" }\t\t  ];\t  $xaxis := \"timeStamp\";\t  [\t    {\t      \"series\": $series.label,\t      \"data\": $series.[\t        (\t          $yaxis := $.field;\t          $$.payload.{\t            \"x\": $lookup($, $xaxis),\t            \"y\": $lookup($, $yaxis)\t          }\t        )\t      ]\t    }\t  ]\t)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 620,
+        "wires": [
+            [
+                "4b95c8e243cb6d65"
+            ]
+        ]
+    },
+    {
+        "id": "4b95c8e243cb6d65",
+        "type": "ui_chart",
+        "z": "37b4cf34808c4649",
+        "name": "24 hours data",
+        "group": "8bf1dc9dafee872f",
+        "order": 1,
+        "width": 6,
+        "height": "6",
+        "label": "Gráfico Ruído",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#0f00e6",
+            "#e5101b",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 840,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ddeef4208486caae",
+        "type": "debug",
+        "z": "37b4cf34808c4649",
+        "name": "dados mysql",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "1d3ab0a498bec4a3",
+        "type": "mysql",
+        "z": "37b4cf34808c4649",
+        "mydb": "636ab1694ccbabf6",
+        "name": "conexao_mysql",
+        "x": 440,
+        "y": 620,
+        "wires": [
+            [
+                "3ae1d261908ae282",
+                "ddeef4208486caae"
+            ]
+        ]
+    },
+    {
+        "id": "fac9971ea50b1a1d",
+        "type": "ui_group",
+        "name": "Sensor Ruído Sonoro",
+        "tab": "0dda21a0c9918a56",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2bc52c51.dbbb94",
+        "type": "mqtt-broker",
+        "name": "mqtt_local",
+        "broker": "projetosjhonatas.duckdns.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "fd0453afa32a4e1d",
+        "type": "ui_group",
+        "name": "LED Alerta",
+        "tab": "0dda21a0c9918a56",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "636ab1694ccbabf6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "database-1.cdjtwz8lkvjd.us-east-1.rds.amazonaws.com",
+        "port": "3306",
+        "db": "sensor",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "8bf1dc9dafee872f",
+        "type": "ui_group",
+        "name": "Sensor Ruído Sonoro",
+        "tab": "dd4b96b65c9812f7",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0dda21a0c9918a56",
+        "type": "ui_tab",
+        "name": "Principal",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "dd4b96b65c9812f7",
+        "type": "ui_tab",
+        "name": "Armazenamento",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
